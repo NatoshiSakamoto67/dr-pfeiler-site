@@ -1,0 +1,691 @@
+/* =============================================================================
+ *  Privatpraxis Dr. med. Günter Pfeiler — Stilblatt „Wand und Glas“ (15.09.2026)
+ *
+ *  Mobil zuerst. Eine gestrichene Wand (Ottocento, Anthrazit) als Bühne,
+ *  Glas darauf, Papier dazwischen. Wenig Text, langsame Bewegung.
+ *  Schriften lokal, keine externe Anfrage.
+ * ========================================================================== */
+@font-face{font-family:'Source Serif 4';src:url('../fonts/source-serif-4.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Manrope';src:url('../fonts/manrope-400.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Manrope';src:url('../fonts/manrope-700.woff2') format('woff2');font-weight:700;font-display:swap}
+
+:root{
+  --papier:#f4f1ea;--papier-2:#ebe7de;--papier-3:#dfdad0;
+  --tinte:#1c2022;--tinte-2:#454b4f;--mute:#7b8185;--linie:rgba(28,32,34,.12);
+  --akzent:#2f3437;--akzent-2:#1e2225;
+  --hell:#f3f1ec;--hell-2:rgba(243,241,236,.72);
+  --wand:url("../img/ottocento-anthrazit.webp");--wand-hoch:url("../img/ottocento-anthrazit-hoch.webp");
+  --serif:'Source Serif 4',Georgia,serif;--sans:'Manrope',system-ui,-apple-system,sans-serif;
+  --r:22px;--r-s:14px;
+  --pad:clamp(1.1rem,4vw,3rem);--maxw:1180px;
+  --dur:.6s;--dur-in:1.8s;--ease:cubic-bezier(.22,1,.36,1);
+  --t-h1:clamp(2.4rem,7.5vw,5.4rem);--t-h2:clamp(1.55rem,4.4vw,2.6rem);--t-lead:clamp(1.05rem,2.6vw,1.3rem);
+  --glas-bg:rgba(255,255,255,.12);--glas-kante:rgba(255,255,255,.28);--glas-hell-bg:rgba(255,255,255,.5);--glas-hell-kante:rgba(255,255,255,.85);
+  color-scheme:light;
+}
+html[data-modus="dunkel"]{
+  --papier:#232628;--papier-2:#2b2f32;--papier-3:#34383c;
+  --tinte:#f1efea;--tinte-2:#cfcbc3;--mute:#9a9690;--linie:rgba(241,239,234,.12);
+  --akzent:#f1efea;--akzent-2:#ffffff;
+  --glas-hell-bg:rgba(255,255,255,.06);--glas-hell-kante:rgba(255,255,255,.12);
+  color-scheme:dark;
+}
+
+/* ---- Grund ------------------------------------------------------------- */
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--papier);color:var(--tinte);font:400 1.04rem/1.6 var(--sans);-webkit-font-smoothing:antialiased;padding-bottom:env(safe-area-inset-bottom)}
+img{max-width:100%;display:block}
+a{color:inherit}
+h1,h2,h3{font-family:var(--serif);font-weight:500;line-height:1.05;letter-spacing:-.015em;margin:0}
+h1{font-size:var(--t-h1)}h2{font-size:var(--t-h2)}h3{font-size:1.15rem;line-height:1.3}
+p{margin:0}
+.wrap{width:min(100% - 2*var(--pad),var(--maxw));margin-inline:auto}
+.skip{position:absolute;left:1rem;top:-4rem;background:var(--akzent);color:var(--papier);padding:.6rem 1rem;border-radius:8px;z-index:100}
+.skip:focus{top:1rem}
+:focus-visible{outline:2px solid var(--akzent);outline-offset:3px;border-radius:4px}
+.kicker{font-family:var(--serif);font-style:italic;font-size:1rem;color:var(--mute);margin-bottom:.9rem}
+.lead{font-size:var(--t-lead);line-height:1.5;color:var(--tinte-2);max-width:34ch}
+.mute{color:var(--mute)}
+section{padding-block:clamp(3.2rem,9vw,6.5rem)}
+.sec-kopf{margin-bottom:clamp(1.6rem,4vw,2.6rem)}
+.sec-kopf h2{max-width:20ch}
+.todo{margin-top:1.2rem;padding:.7rem .9rem;border:1px dashed rgba(200,70,50,.6);border-radius:10px;font-size:.78rem;line-height:1.45;color:#b0402c;background:rgba(200,70,50,.06)}
+html[data-modus="dunkel"] .todo{background:rgba(200,70,50,.14)}
+
+/* ---- Glas -------------------------------------------------------------- */
+.glas,.glas-hell{
+  border-radius:var(--r);
+  -webkit-backdrop-filter:blur(26px) saturate(150%);backdrop-filter:blur(26px) saturate(150%);
+  position:relative;isolation:isolate;
+}
+.glas{background:var(--glas-bg);border:1px solid var(--glas-kante);color:var(--hell);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.35),inset 0 -1px 0 rgba(255,255,255,.06),0 40px 90px -50px rgba(0,0,0,.75)}
+.glas::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:linear-gradient(160deg,rgba(255,255,255,.22),rgba(255,255,255,0) 38%,rgba(255,255,255,0) 70%,rgba(255,255,255,.08));}
+.glas-hell{background:var(--glas-hell-bg);border:1px solid var(--glas-hell-kante);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 24px 60px -40px rgba(28,32,34,.35)}
+html[data-modus="dunkel"] .glas-hell{box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
+
+/* ---- Wand -------------------------------------------------------------- */
+.wand{position:relative;color:var(--hell);overflow:hidden;isolation:isolate;background:#2b2f33}
+.wand-bild{position:absolute;inset:-6%;width:112%;height:112%;object-fit:cover;z-index:-1;
+  animation:treiben 46s ease-in-out infinite alternate;will-change:transform}
+.wand::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:linear-gradient(180deg,rgba(0,0,0,.28),rgba(0,0,0,.08) 40%,rgba(0,0,0,.42))}
+@keyframes treiben{from{transform:translate3d(-1.5%,-1%,0) scale(1)}to{transform:translate3d(1.5%,1.5%,0) scale(1.06)}}
+.wand--fliese{border-radius:var(--r);width:min(100% - 2*var(--pad),var(--maxw));margin-inline:auto;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.14),inset 0 0 0 1px rgba(255,255,255,.06),0 30px 70px -40px rgba(0,0,0,.6)}
+.wand .kicker{color:rgba(243,241,236,.7)}
+.wand .lead{color:rgba(243,241,236,.86)}
+
+/* ---- Kopfzeile: Glaspille -------------------------------------------- */
+.kopf{position:fixed;top:calc(.6rem + env(safe-area-inset-top));left:0;right:0;z-index:50;pointer-events:none}
+.kopf .wrap{display:flex;align-items:center;justify-content:space-between;gap:.6rem}
+.kopf-pille{pointer-events:auto;display:flex;align-items:center;gap:.4rem;padding:.4rem .5rem .4rem .95rem;border-radius:999px;
+  transition:background var(--dur) var(--ease),border-color var(--dur) var(--ease),color var(--dur) var(--ease)}
+.kopf-pille.glas-hell{color:var(--tinte)}
+.kopf.ueber-wand .kopf-pille{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.26);color:var(--hell)}
+.marke{text-decoration:none;font-family:var(--serif);font-weight:600;font-size:1rem;letter-spacing:-.01em;white-space:nowrap;margin-right:.4rem}
+.marke small{display:block;font:700 .58rem/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;opacity:.65;margin-top:.15rem}
+.nav{display:none;align-items:center;gap:.2rem}
+.nav a{text-decoration:none;font-size:.9rem;padding:.45rem .7rem;border-radius:999px;opacity:.85;transition:background var(--dur) var(--ease),opacity var(--dur) var(--ease)}
+.nav a:hover,.nav a[aria-current="page"]{opacity:1;background:rgba(127,127,127,.14)}
+.knopf{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;text-decoration:none;font:700 .9rem/1 var(--sans);
+  padding:.8rem 1.15rem;border-radius:999px;border:1px solid currentColor;transition:transform var(--dur) var(--ease),background var(--dur) var(--ease),color var(--dur) var(--ease)}
+.knopf:hover{transform:translateY(-1px)}
+.knopf--voll{background:var(--akzent);color:var(--papier);border-color:var(--akzent)}
+.wand .knopf--voll{background:var(--hell);color:#1c2022;border-color:var(--hell)}
+.knopf--glas{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.35)}
+.knopf--klein{padding:.55rem .9rem;font-size:.8rem}
+.menue{display:inline-flex;width:2.1rem;height:2.1rem;align-items:center;justify-content:center;border-radius:50%;border:1px solid rgba(127,127,127,.35);background:transparent;color:inherit;cursor:pointer;padding:0}
+.menue span{width:.95rem;height:1.5px;background:currentColor;position:relative;transition:transform var(--dur) var(--ease),background var(--dur) var(--ease)}
+.menue span::before,.menue span::after{content:"";position:absolute;left:0;right:0;height:1.5px;background:currentColor;transition:transform var(--dur) var(--ease)}
+.menue span::before{top:-5px}.menue span::after{top:5px}
+.menue[aria-expanded="true"] span{background:transparent}
+.menue[aria-expanded="true"] span::before{transform:translateY(5px) rotate(45deg)}
+.menue[aria-expanded="true"] span::after{transform:translateY(-5px) rotate(-45deg)}
+/* Ausgeklapptes Menü (Handy): Glasfläche unter der Pille */
+.menue-flaeche{position:fixed;left:var(--pad);right:var(--pad);top:calc(4.2rem + env(safe-area-inset-top));z-index:49;padding:.6rem;display:grid;gap:.15rem;
+  opacity:0;transform:translateY(-8px) scale(.98);pointer-events:none;transition:opacity var(--dur) var(--ease),transform var(--dur) var(--ease)}
+.menue-flaeche.offen{opacity:1;transform:none;pointer-events:auto}
+.menue-flaeche a{text-decoration:none;padding:.85rem 1rem;border-radius:12px;font-family:var(--serif);font-size:1.25rem}
+.menue-flaeche a:hover,.menue-flaeche a[aria-current="page"]{background:rgba(127,127,127,.12)}
+.ueber-wand .menue-flaeche{color:var(--hell);background:rgba(20,22,24,.5);border-color:rgba(255,255,255,.2)}
+@media (min-width:860px){.nav{display:flex}.menue,.menue-flaeche{display:none}}
+
+/* ---- Rufleiste (Handy) ----------------------------------------------- */
+.ruf{position:fixed;left:50%;bottom:calc(.9rem + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:45;
+  display:flex;gap:.4rem;padding:.4rem;border-radius:999px;color:var(--tinte)}
+.ruf a{white-space:nowrap}
+@media (min-width:860px){.ruf{display:none}}
+
+/* ---- Hero -------------------------------------------------------------- */
+.hero{min-height:100svh;display:grid;align-items:end;padding:calc(6rem + env(safe-area-inset-top)) 0 clamp(5rem,14vw,7rem)}
+.hero-karte{padding:clamp(1.4rem,5vw,2.8rem);max-width:44rem}
+.hero h1{margin:.2rem 0 1rem}
+.hero h1 .gross{display:block;font-weight:600;font-size:clamp(3rem,11vw,6.2rem);letter-spacing:-.03em;line-height:.95}
+.hero h1 .klein{display:block;font-weight:300;font-style:italic;font-size:clamp(1.5rem,5.2vw,2.9rem);margin-top:.35rem;opacity:.92}
+.hero .lead{max-width:30ch}
+.hero-aktionen{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.5rem}
+.hero-meta{display:flex;flex-wrap:wrap;gap:.3rem 1.2rem;margin-top:1.4rem;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:rgba(243,241,236,.65)}
+.hero-meta span::before{content:"·";margin-right:.6rem;opacity:.6}
+.hero-meta span:first-child::before{content:none}
+/* Der Puls: eine Linie, langsam gezogen — der einzige Rest der alten Zeichnungen im Hero */
+.puls{display:block;width:100%;height:auto;margin-top:1.6rem;opacity:.75}
+.puls path{fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;animation:ziehen 14s var(--ease) infinite}
+@keyframes ziehen{0%{stroke-dashoffset:1;opacity:0}8%{opacity:1}55%{stroke-dashoffset:0;opacity:1}78%{opacity:1}100%{stroke-dashoffset:0;opacity:0}}
+
+/* ---- Einblenden ------------------------------------------------------- */
+.js .zeig{opacity:0;transform:translateY(22px);filter:blur(6px);transition:opacity var(--dur-in) var(--ease) var(--dl,0ms),transform var(--dur-in) var(--ease) var(--dl,0ms),filter var(--dur-in) var(--ease) var(--dl,0ms)}
+.js .zeig.in{opacity:1;transform:none;filter:none}
+@media (prefers-reduced-motion:reduce){.js .zeig{opacity:1;transform:none;filter:none;transition:none}.wand-bild,.puls path,.schau-bild,.schau-bild img{animation:none!important;transition:none!important}}
+
+/* ---- Bilder + Nummern ------------------------------------------------- */
+figure{margin:0;position:relative}
+.bild-nr{position:absolute;left:.7rem;top:.7rem;z-index:3;min-width:2.1rem;height:2.1rem;padding:0 .5rem;display:inline-flex;align-items:center;justify-content:center;
+  font:600 1.05rem/1 var(--serif);color:#f4f1ea;background:#2f3437;border:1px solid rgba(255,255,255,.35);border-radius:999px;box-shadow:0 2px 8px rgba(0,0,0,.25);pointer-events:none}
+html[data-modus="dunkel"] .bild-nr{background:#f1efea;color:#1c2022}
+figcaption{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);margin-top:.5rem}
+.band img{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:var(--r)}
+@media (min-width:860px){.band img{aspect-ratio:21/9}}
+
+/* ---- Slideshow --------------------------------------------------------- */
+.schau{position:relative;aspect-ratio:4/3;border-radius:var(--r);overflow:hidden;background:var(--papier-2)}
+@media (min-width:860px){.schau{aspect-ratio:21/9}}
+.schau-bild{position:absolute;inset:0;opacity:0;transition:opacity 2.6s ease-in-out}
+.schau-bild.ist-aktiv{opacity:1}
+.schau-bild img{width:100%;height:100%;object-fit:cover;transform:scale(1.02);transition:transform 10s linear}
+.schau-bild.ist-aktiv img{transform:scale(1.08)}
+.schau-bild figcaption{position:absolute;left:1rem;bottom:.9rem;margin:0;font:italic 400 1rem/1.3 var(--serif);letter-spacing:0;text-transform:none;color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.6)}
+.schau-bild .bild-nr{left:auto;right:.8rem}
+.schau-punkte{position:absolute;right:1rem;bottom:1rem;display:flex;gap:.4rem;z-index:2;padding:.4rem .55rem;border-radius:999px}
+.schau-punkte button{width:.5rem;height:.5rem;border-radius:50%;border:0;padding:0;background:rgba(255,255,255,.55);cursor:pointer;transition:transform var(--dur) var(--ease),background var(--dur) var(--ease)}
+.schau-punkte button[aria-selected="true"]{background:#fff;transform:scale(1.4)}
+
+/* ---- Zwei Spalten ab Tablet ------------------------------------------- */
+.zwei{display:grid;gap:clamp(1.4rem,4vw,3rem);align-items:start}
+@media (min-width:860px){.zwei{grid-template-columns:1fr 1fr;align-items:center}}
+.portraet img{aspect-ratio:3/4;object-fit:cover;object-position:center 15%;border-radius:var(--r);width:100%;max-width:22rem}
+
+/* ---- Leistungs-Liste (Start) ------------------------------------------ */
+.felder{display:grid;gap:.6rem;list-style:none;margin:0;padding:0}
+.feld{display:grid;grid-template-columns:2.4rem 1fr auto;align-items:center;gap:.9rem;padding:1rem 1.1rem;text-decoration:none;
+  transition:transform var(--dur) var(--ease),background var(--dur) var(--ease)}
+.feld:hover{transform:translateX(4px)}
+.feld .nr{font:italic 400 .95rem/1 var(--serif);color:var(--mute)}
+.feld b{font-family:var(--serif);font-weight:500;font-size:1.15rem;display:block}
+.feld span{display:block;font-size:.88rem;color:var(--tinte-2);margin-top:.15rem}
+.feld .pfeil{width:1.4rem;height:1.4rem;opacity:.5;transition:transform var(--dur) var(--ease),opacity var(--dur) var(--ease)}
+.feld:hover .pfeil{transform:translateX(3px);opacity:1}
+@media (min-width:860px){.felder{grid-template-columns:1fr 1fr}.feld:last-child{grid-column:1/-1}}
+
+/* ---- Erfahrung (Fliese) ---------------------------------------------- */
+.jahre{font:500 clamp(2.6rem,10vw,5.6rem)/1 var(--serif);letter-spacing:-.03em}
+.jahre small{display:block;font:italic 400 clamp(1rem,3vw,1.4rem)/1.3 var(--serif);opacity:.8;letter-spacing:0;margin-top:.5rem}
+.rahmen{padding:.55rem}
+.rahmen img{width:100%;aspect-ratio:3/2;object-fit:cover;border-radius:calc(var(--r) - .5rem)}
+.rahmen--hoch img{aspect-ratio:3/4;object-position:center 15%}
+.fotos{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-top:1.6rem}
+.fotos .rahmen:first-child{grid-column:1/-1}
+@media (min-width:860px){.fotos{grid-template-columns:1.4fr 1fr 1fr;margin-top:0}.fotos .rahmen:first-child{grid-column:auto}}
+
+/* ---- Kontakt-Karte ---------------------------------------------------- */
+.kontakt{padding:clamp(1.3rem,4vw,2.2rem);display:grid;gap:1.1rem}
+.kontakt .tel{font:600 clamp(1.7rem,7vw,2.6rem)/1 var(--serif);letter-spacing:-.02em;text-decoration:none;display:block}
+.kontakt small{display:block;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--mute);margin-bottom:.3rem}
+.kontakt address{font-style:normal;line-height:1.5}
+
+/* ---- Leistungsseite ---------------------------------------------------- */
+.reiter{display:flex;gap:.4rem;overflow-x:auto;scrollbar-width:none;padding:.4rem;margin-top:1.6rem;-webkit-overflow-scrolling:touch}
+.reiter::-webkit-scrollbar{display:none}
+.reiter a{text-decoration:none;white-space:nowrap;font-size:.86rem;font-weight:700;padding:.55rem .9rem;border-radius:999px;transition:background var(--dur) var(--ease)}
+.reiter a:hover,.reiter a.aktiv{background:rgba(127,127,127,.14)}
+.reiter a i{font:italic 400 .8rem/1 var(--serif);color:var(--mute);margin-right:.35rem}
+.bereich{padding-block:clamp(2.4rem,7vw,4.5rem);scroll-margin-top:5.5rem;border-top:1px solid var(--linie)}
+.bereich:first-of-type{border-top:0}
+.bereich-kopf{display:grid;gap:1.2rem;margin-bottom:1.4rem}
+.bereich-kopf img{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:var(--r)}
+.bereich-kopf .nr{font:italic 400 1rem/1 var(--serif);color:var(--mute);display:block;margin-bottom:.5rem}
+@media (min-width:860px){.bereich-kopf{grid-template-columns:1fr 1.2fr;align-items:center;gap:2.5rem}.bereich-kopf img{aspect-ratio:3/2}}
+.leistungen{list-style:none;margin:0;padding:0;display:grid;gap:.6rem}
+@media (min-width:640px){.leistungen{grid-template-columns:repeat(auto-fit,minmax(16rem,1fr))}}
+.leistung{display:grid;grid-template-columns:4.4rem 1fr;gap:.9rem;align-items:center;padding:.6rem;overflow:hidden}
+.leistung figure{margin:0}
+.leistung img{width:4.4rem;height:4.4rem;object-fit:cover;border-radius:calc(var(--r-s) - 2px)}
+.leistung .bild-nr{left:.3rem;top:.3rem;min-width:1.6rem;height:1.6rem;font-size:.85rem;padding:0 .35rem}
+.leistung b{font-family:var(--serif);font-weight:500;font-size:1.02rem;display:block;line-height:1.25}
+.leistung span{display:block;font-size:.84rem;color:var(--tinte-2);margin-top:.15rem;line-height:1.4}
+
+/* ---- Tabellen, Listen (Kontakt, Praxis) ------------------------------- */
+.zeiten{width:100%;border-collapse:collapse;font-size:.95rem}
+.zeiten th,.zeiten td{text-align:left;padding:.65rem 0;border-bottom:1px solid var(--linie);font-weight:400}
+.zeiten th{color:var(--tinte-2);width:40%}
+.wege{display:grid;gap:.6rem}
+.weg{padding:1rem 1.1rem}
+.weg b{font-family:var(--serif);font-weight:500;font-size:1.05rem;display:block;margin-bottom:.25rem}
+.weg p{font-size:.92rem;color:var(--tinte-2)}
+.faq details{padding:.2rem 1.1rem;margin-bottom:.5rem}
+.faq summary{cursor:pointer;list-style:none;font-family:var(--serif);font-size:1.05rem;padding:.8rem 0;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-size:1.2rem;color:var(--mute);transition:transform var(--dur) var(--ease)}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{padding-bottom:1rem;font-size:.95rem;color:var(--tinte-2)}
+.text{max-width:62ch}
+.text h2{margin:2.2rem 0 .7rem;font-size:1.35rem}
+.text h3{margin:1.5rem 0 .4rem}
+.text p,.text li{margin-bottom:.7rem;color:var(--tinte-2);font-size:.98rem}
+.text ul{padding-left:1.1rem}
+/* Alt-Klassen der Rechtsseiten (Inhalt unverändert übernommen) */
+.line{display:block}.line-in{display:inline-block}.d2{}
+.split{display:grid;gap:2rem}@media (min-width:860px){.split{grid-template-columns:1fr 1fr}}
+.liste{list-style:none;padding:0;margin:0}.liste li{padding:.5rem 0;border-bottom:1px solid var(--linie);color:var(--tinte-2)}
+.hinweis{margin-top:1.2rem;padding:.9rem 1rem;border-left:2px solid var(--linie);font-size:.9rem;color:var(--mute)}
+dl.qual{margin:0}dl.qual div{padding:.7rem 0;border-bottom:1px solid var(--linie)}dl.qual dt{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}dl.qual dd{margin:0;font-family:var(--serif);font-size:1.1rem}
+.kontakt-karte,.kontakt-zeile{display:block}.kontakt-zeile{padding:.6rem 0;border-bottom:1px solid var(--linie);text-decoration:none}.kontakt-zeile small{display:block;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+.bild-platz{position:relative;aspect-ratio:16/9;border:1px dashed var(--linie);border-radius:var(--r);display:grid;place-items:center;padding:1.5rem;text-align:center;color:var(--mute);font-size:.85rem}
+.bild-platz svg{display:none}.bild-platz b{display:block;font-family:var(--serif);color:var(--tinte-2);margin-bottom:.3rem}
+.lageplan{display:none}.anfahrt{display:grid;gap:1.5rem}
+
+/* ---- Fuß --------------------------------------------------------------- */
+.fuss{padding:2.5rem 0 calc(5.5rem + env(safe-area-inset-bottom));font-size:.85rem;color:var(--mute)}
+@media (min-width:860px){.fuss{padding-bottom:2.5rem}}
+.fuss .wrap{display:grid;gap:1rem}
+.fuss nav{display:flex;flex-wrap:wrap;gap:.3rem 1.2rem}
+.fuss a{text-decoration:none}
+.fuss a:hover{color:var(--tinte)}
+.fuss .zeile{display:flex;flex-wrap:wrap;justify-content:space-between;gap:.4rem 1.5rem;padding-top:1rem;border-top:1px solid var(--linie)}
+
+/* ---- Feinheiten Handy ------------------------------------------------- */
+@media (max-width:859px){.kopf-pille{width:100%;justify-content:space-between}.marke{margin-right:auto}}
+@media (max-width:420px){.marke small{display:none}.marke{font-size:.95rem}.knopf--klein{padding:.5rem .75rem}}
+.zwei > .portraet{justify-self:start}
+@media (min-width:860px){.hero-karte{margin-left:0}}
+.hero .kicker{color:rgba(243,241,236,.7)}
+.hero .lead{color:rgba(243,241,236,.88)}
+
+/* Höhenattribute der Bilder dürfen die CSS-Proportion nicht überstimmen. */
+.portraet img,.rahmen img,.band img,.bereich-kopf img,.schau-bild img{height:auto}
+.rahmen img,.schau-bild img{height:100%}
+.portraet img{max-height:30rem}
+.rahmen--hoch{max-height:26rem}
+/* Der Puls bleibt auch ohne Bewegung sichtbar. */
+@media (prefers-reduced-motion:reduce){.puls path{stroke-dashoffset:0;opacity:.75}}
+
+
+/* =============================================================================
+ *  17.09. — Desktop und Tablet: Kopfzeile mit Präsenz, Wand scharf und deckend,
+ *  Schrift ruhiger (keine Kursiven mehr), klare Stufen 860 / 1100.
+ * ========================================================================== */
+/* Wand: das Bild darf breiter als sein Kasten sein (sonst 6 % Lücke rechts). */
+.wand-bild{max-width:none;inset:-4%;width:108%;height:108%}
+@keyframes treiben{from{transform:translate3d(-1%,-.6%,0) scale(1)}to{transform:translate3d(1%,1%,0) scale(1.03)}}
+.wand::after{background:linear-gradient(180deg,rgba(0,0,0,.18),rgba(0,0,0,.04) 45%,rgba(0,0,0,.3))}
+
+/* Schrift: Vorspann als kleine Versalien statt Kursive, Untertitel aufrecht und leicht. */
+.kicker{font:700 .7rem/1 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--mute);margin-bottom:1.1rem}
+.hero h1 .klein{font-style:normal;font-weight:300;letter-spacing:-.01em;opacity:.9}
+.jahre small{font-style:normal;font-weight:300}
+.schau-bild figcaption{font-style:normal;font-weight:400;letter-spacing:.01em}
+.feld .nr,.reiter a i,.bereich-kopf .nr{font-style:normal;font:500 .78rem/1 var(--sans);letter-spacing:.14em;color:var(--mute)}
+.lead{font-weight:400;letter-spacing:-.005em}
+h1,h2{letter-spacing:-.02em}
+.hero .lead{font-size:clamp(1.02rem,1.6vw,1.18rem);color:rgba(243,241,236,.82)}
+
+/* Glas im Hero: weniger Unschärfe, etwas mehr Deckung — die Wand bleibt lesbar. */
+.hero-karte{-webkit-backdrop-filter:blur(14px) saturate(130%);backdrop-filter:blur(14px) saturate(130%);background:rgba(28,31,34,.34);border-color:rgba(255,255,255,.22)}
+
+/* ---- Tablet ab 700 px ---- */
+@media (min-width:700px){
+  .zwei{grid-template-columns:1fr 1fr;align-items:center}
+  .felder{grid-template-columns:1fr 1fr}.feld:last-child{grid-column:1/-1}
+  .schau{aspect-ratio:16/9}
+  .band img{aspect-ratio:2/1}
+  .fotos{grid-template-columns:1.4fr 1fr 1fr;margin-top:0}.fotos .rahmen:first-child{grid-column:auto}
+  .bereich-kopf{grid-template-columns:1fr 1.2fr;align-items:center;gap:2.5rem}.bereich-kopf img{aspect-ratio:3/2}
+  .split{grid-template-columns:1fr 1fr}
+}
+/* ---- Desktop ab 1100 px: Kopfzeile als volle Leiste mit Luft ---- */
+@media (min-width:1100px){
+  .kopf{top:calc(1rem + env(safe-area-inset-top))}
+  .kopf-pille{width:100%;justify-content:space-between;padding:.6rem .7rem .6rem 1.4rem;gap:.8rem}
+  .marke{font-size:1.15rem}
+  .marke small{font-size:.62rem;margin-top:.2rem}
+  .nav{gap:.35rem;margin-inline:auto}
+  .nav a{font-size:1rem;padding:.6rem 1rem}
+  .knopf--klein{padding:.7rem 1.15rem;font-size:.9rem}
+  .modus{width:2.2rem;height:2.2rem}
+  .hero{padding-top:calc(8rem + env(safe-area-inset-top))}
+  .hero-karte{max-width:46rem;padding:3rem 3.2rem}
+  .schau{aspect-ratio:21/9}
+  section{padding-block:clamp(4rem,7vw,7rem)}
+}
+@media (min-width:860px){.nav{display:flex}}
+
+
+/* =============================================================================
+ *  17.09. — Glas, Stufe zwei: klar statt milchig. Dünne Scheibe mit Kante,
+ *  Lichtreflex oben links, Brechungssaum, langsam wandernder Schimmer.
+ * ========================================================================== */
+.glas,.hero-karte{
+  background:rgba(255,255,255,.045);
+  -webkit-backdrop-filter:blur(11px) saturate(170%) brightness(1.06) contrast(1.02);backdrop-filter:blur(11px) saturate(170%) brightness(1.06) contrast(1.02);
+  border:1px solid rgba(255,255,255,.34);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.55),          /* obere Kante fängt Licht */
+    inset 0 -1px 0 rgba(255,255,255,.12),         /* untere Kante schwach */
+    inset 1px 0 0 rgba(255,255,255,.18),inset -1px 0 0 rgba(255,255,255,.1),
+    inset 0 0 0 1px rgba(0,0,0,.18),              /* Scheibendicke */
+    0 40px 90px -46px rgba(0,0,0,.85);
+  overflow:hidden;
+}
+.glas::before,.hero-karte::before{
+  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:
+    radial-gradient(90% 55% at 8% -8%, rgba(255,255,255,.28), rgba(255,255,255,0) 60%),
+    radial-gradient(60% 40% at 100% 110%, rgba(255,255,255,.10), rgba(255,255,255,0) 60%),
+    linear-gradient(115deg, rgba(255,255,255,.10) 0%, rgba(255,255,255,0) 35%, rgba(255,255,255,0) 65%, rgba(255,255,255,.06) 100%);
+}
+/* Der Schimmer: ein schmales Lichtband wandert alle 14 s einmal über die Scheibe. */
+.glas::after,.hero-karte::after{
+  content:"";position:absolute;inset:-40% -60%;pointer-events:none;border-radius:inherit;
+  background:linear-gradient(105deg, rgba(255,255,255,0) 42%, rgba(255,255,255,.09) 49%, rgba(255,255,255,.16) 50%, rgba(255,255,255,.09) 51%, rgba(255,255,255,0) 58%);
+  transform:translateX(-45%);animation:schimmer 14s cubic-bezier(.4,0,.2,1) infinite;
+}
+@keyframes schimmer{0%,55%{transform:translateX(-45%)}85%,100%{transform:translateX(45%)}}
+@media (prefers-reduced-motion:reduce){.glas::after,.hero-karte::after{animation:none;opacity:0}}
+.hero-karte > *{position:relative;z-index:1}
+.hero-karte .lead,.hero-karte h1,.hero-karte .kicker,.hero-karte .hero-meta{text-shadow:0 1px 2px rgba(0,0,0,.35)}
+/* Helles Glas auf Papier: ebenso klar, Kante statt Fläche. */
+.glas-hell{
+  background:rgba(255,255,255,.22);
+  -webkit-backdrop-filter:blur(14px) saturate(160%);backdrop-filter:blur(14px) saturate(160%);
+  border:1px solid rgba(255,255,255,.9);
+  box-shadow:inset 0 1px 0 #fff,inset 0 0 0 1px rgba(28,32,34,.05),0 24px 60px -44px rgba(28,32,34,.45);
+}
+html[data-modus="dunkel"] .glas-hell{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.14);box-shadow:inset 0 1px 0 rgba(255,255,255,.12),inset 0 0 0 1px rgba(0,0,0,.2)}
+.schau-punkte.glas{overflow:visible}
+.schau-punkte.glas::after{display:none}
+.kopf-pille.glas-hell{background:rgba(255,255,255,.3)}
+.kopf.ueber-wand .kopf-pille{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.3);box-shadow:inset 0 1px 0 rgba(255,255,255,.4),inset 0 0 0 1px rgba(0,0,0,.15)}
+.puls{margin-top:1.2rem}
+
+/* Bild ganz zeigen, wenn es nicht ins Format passt; der Fond ist dasselbe Bild, weich. */
+.passe img:not(.fond){object-fit:contain;position:relative;z-index:1}
+.passe .fond{position:absolute;inset:-8%;width:116%;height:116%;max-width:none;object-fit:cover;filter:blur(28px) brightness(.62) saturate(1.1);transform:none!important;z-index:0}
+.schau-bild.passe img:not(.fond){transform:scale(1)!important}
+.rahmen img{object-position:center 18%}
+
+
+/* =============================================================================
+ *  17.09. — Lesbarkeit, Schalter, Pfeile
+ * ========================================================================== */
+/* Grundschrift größer; drei Stufen über den Schalter unten links. */
+html{font-size:106.25%}                       /* 17 px */
+html[data-schrift="gross"]{font-size:118.75%} /* 19 px */
+html[data-schrift="sehr-gross"]{font-size:131.25%} /* 21 px */
+body{font-size:1rem;line-height:1.62}
+.kicker{font-size:.78rem}
+figcaption{font-size:.78rem;letter-spacing:.12em}
+.fuss{font-size:.95rem}
+.hero-meta{font-size:.82rem}
+.feld span,.leistung span,.weg p,.faq details p{font-size:.95rem}
+.todo{font-size:.85rem}
+.schau-bild figcaption{font-size:1.08rem}
+.schau-bild .bild-nr,.bild-nr{font-size:1.05rem}
+
+/* Hell/Dunkel: eine Wippe mit Sonne und Mond, auf den ersten Blick lesbar. */
+.modus{
+  width:3.6rem;height:1.95rem;border-radius:999px;padding:0 .3rem;position:relative;flex:none;cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:space-between;
+  background:rgba(127,127,127,.16);border:1px solid rgba(127,127,127,.35);color:inherit;
+  transition:background var(--dur) var(--ease);
+}
+.modus:hover{background:rgba(127,127,127,.28)}
+.modus svg{width:.95rem;height:.95rem;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;position:relative;z-index:1;opacity:.55;transition:opacity var(--dur) var(--ease)}
+.modus .mond{fill:currentColor;stroke:none}
+.modus .knauf{position:absolute;top:.2rem;left:.2rem;width:1.45rem;height:1.45rem;border-radius:50%;background:#f4f1ea;
+  box-shadow:0 1px 3px rgba(0,0,0,.35),inset 0 1px 0 #fff;transition:transform .5s var(--ease),background var(--dur) var(--ease)}
+.modus[aria-pressed="false"] .sonne{opacity:1}
+.modus[aria-pressed="true"] .mond{opacity:1}
+.modus[aria-pressed="true"] .knauf{transform:translateX(1.65rem);background:#1c2022;box-shadow:0 1px 3px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.2)}
+.kopf.ueber-wand .modus{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.3)}
+@media (min-width:1100px){.modus{width:3.9rem;height:2.1rem}.modus .knauf{width:1.6rem;height:1.6rem}.modus[aria-pressed="true"] .knauf{transform:translateX(1.8rem)}}
+
+/* Darstellung: kleine Glaspille unten links, „A A“ für die Schrift. */
+.hilfe{position:fixed;left:calc(.8rem + env(safe-area-inset-left));bottom:calc(.9rem + env(safe-area-inset-bottom));z-index:44;
+  display:flex;align-items:center;gap:.5rem;padding:.3rem .3rem;border-radius:999px;color:var(--tinte)}
+.schrift{display:inline-flex;align-items:baseline;gap:.1rem;width:auto;height:2.1rem;padding:0 .75rem;border-radius:999px;border:1px solid rgba(127,127,127,.35);background:transparent;color:inherit;cursor:pointer;font-family:var(--serif)}
+.schrift .a1{font-size:.85rem}.schrift .a2{font-size:1.25rem;font-weight:600}
+.schrift[aria-pressed="true"]{background:var(--akzent);color:var(--papier);border-color:var(--akzent)}
+.hilfe-stand{font-size:.78rem;color:var(--mute);padding-right:.5rem;display:none}
+@media (min-width:860px){.hilfe-stand{display:inline}.hilfe{left:calc(1.2rem + env(safe-area-inset-left));bottom:1.2rem}}
+@media (max-width:859px){.hilfe{bottom:calc(4.4rem + env(safe-area-inset-bottom))}}
+
+/* Slideshow: große Pfeile links und rechts. */
+.schau-pfeil{position:absolute;top:50%;transform:translateY(-50%);z-index:3;width:3.4rem;height:3.4rem;border-radius:50%;padding:0;cursor:pointer;color:#fff;
+  display:grid;place-items:center;opacity:.9;transition:opacity var(--dur) var(--ease),transform var(--dur) var(--ease),background var(--dur) var(--ease)}
+.schau-pfeil.links{left:1rem}.schau-pfeil.rechts{right:1rem}
+.schau-pfeil svg{width:1.5rem;height:1.5rem;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.schau-pfeil:hover{opacity:1;transform:translateY(-50%) scale(1.06);background:rgba(255,255,255,.18)}
+.schau-pfeil::after{display:none}
+@media (min-width:1100px){.schau-pfeil{width:4rem;height:4rem}.schau-pfeil.links{left:1.4rem}.schau-pfeil.rechts{right:1.4rem}.schau-pfeil svg{width:1.7rem;height:1.7rem}}
+@media (max-width:600px){.schau-pfeil{width:2.8rem;height:2.8rem}.schau-pfeil.links{left:.6rem}.schau-pfeil.rechts{right:.6rem}}
+
+/* Bereichs-Reiter auf der Leistungsseite: klar, aktiv in Anthrazit. */
+.reiter{padding:.35rem;gap:.3rem}
+.reiter a{font-size:.95rem;padding:.65rem 1.05rem}
+.reiter a.aktiv{background:var(--akzent);color:var(--papier)}
+.reiter a.aktiv i{color:inherit;opacity:.7}
+
+/* Slideshow: 16:9 ab Tablet, damit 3:2-Fotos fast ohne Beschnitt passen; Köpfe oben halten. */
+@media (min-width:700px){.schau{aspect-ratio:16/9}}
+@media (min-width:1100px){.schau{aspect-ratio:16/9}}
+.schau-bild img:not(.fond){object-position:center 22%}
+.hilfe{max-width:calc(100vw - 2rem)}
+
+
+/* =============================================================================
+ *  17.09. — Schalter mit Symbol im Knauf; helle Wand im hellen Modus
+ * ========================================================================== */
+.modus{width:3.7rem;height:2rem;padding:0;justify-content:flex-start;background:rgba(127,127,127,.18);border:1px solid rgba(127,127,127,.4)}
+.modus .knauf{position:absolute;top:.18rem;left:.18rem;width:1.55rem;height:1.55rem;border-radius:50%;display:grid;place-items:center;
+  background:#f4f1ea;color:#1c2022;box-shadow:0 1px 3px rgba(0,0,0,.35),inset 0 1px 0 #fff;transition:transform .5s var(--ease),background var(--dur) var(--ease),color var(--dur) var(--ease)}
+.modus .knauf svg{position:static;width:1rem;height:1rem;opacity:1;grid-area:1/1;stroke:currentColor;stroke-width:2;fill:none;transition:opacity var(--dur) var(--ease),transform var(--dur) var(--ease)}
+.modus .knauf .mond{fill:currentColor;stroke:none;opacity:0;transform:rotate(-40deg) scale(.7)}
+.modus[aria-pressed="true"] .knauf{transform:translateX(1.66rem);background:#1c2022;color:#f4f1ea;box-shadow:0 1px 3px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.18)}
+.modus[aria-pressed="true"] .knauf .sonne{opacity:0;transform:rotate(60deg) scale(.6)}
+.modus[aria-pressed="true"] .knauf .mond{opacity:1;transform:none}
+.modus > *{pointer-events:none}
+@media (min-width:1100px){.modus{width:4rem;height:2.15rem}.modus .knauf{width:1.7rem;height:1.7rem}.modus .knauf svg{width:1.1rem;height:1.1rem}.modus[aria-pressed="true"] .knauf{transform:translateX(1.8rem)}}
+
+/* Helle Wand: dasselbe Bild, hellgrau. Text und Glas wechseln auf dunkle Tinte. */
+html[data-modus="hell"] .wand{background:#d9d6cf;color:var(--tinte)}
+html[data-modus="hell"] .wand::after{background:linear-gradient(180deg,rgba(255,255,255,.18),rgba(255,255,255,0) 40%,rgba(0,0,0,.06))}
+html[data-modus="hell"] .wand .kicker{color:rgba(28,32,34,.6)}
+html[data-modus="hell"] .wand .lead,html[data-modus="hell"] .hero .lead{color:rgba(28,32,34,.78)}
+html[data-modus="hell"] .hero .kicker{color:rgba(28,32,34,.6)}
+html[data-modus="hell"] .wand .knopf--voll{background:var(--akzent);color:var(--papier);border-color:var(--akzent)}
+html[data-modus="hell"] .wand .knopf--glas{background:rgba(255,255,255,.35);border-color:rgba(28,32,34,.25);color:var(--tinte)}
+html[data-modus="hell"] .hero-meta{color:rgba(28,32,34,.55)}
+html[data-modus="hell"] .glas,html[data-modus="hell"] .hero-karte{
+  color:var(--tinte);background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.75);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9),inset 0 -1px 0 rgba(255,255,255,.3),inset 0 0 0 1px rgba(28,32,34,.08),0 40px 90px -50px rgba(28,32,34,.45)}
+html[data-modus="hell"] .hero-karte .lead,html[data-modus="hell"] .hero-karte h1,html[data-modus="hell"] .hero-karte .kicker,html[data-modus="hell"] .hero-karte .hero-meta{text-shadow:none}
+html[data-modus="hell"] .kopf.ueber-wand .kopf-pille{background:rgba(255,255,255,.28);border-color:rgba(255,255,255,.8);color:var(--tinte)}
+html[data-modus="hell"] .kopf.ueber-wand .modus{background:rgba(127,127,127,.18);border-color:rgba(127,127,127,.4)}
+html[data-modus="hell"] .ueber-wand .menue-flaeche{color:var(--tinte);background:rgba(255,255,255,.5);border-color:rgba(255,255,255,.8)}
+html[data-modus="hell"] .wand .todo{border-color:rgba(200,70,50,.6);color:#b0402c;background:rgba(255,255,255,.35)}
+html[data-modus="hell"] .wand .hinweis{color:rgba(28,32,34,.6);border-color:rgba(28,32,34,.2)}
+html[data-modus="hell"] .schau-pfeil{color:#fff}
+html[data-modus="hell"] .wand .bild-nr{background:#2f3437;color:#f4f1ea}
+
+
+/* =============================================================================
+ *  17.09. — Kopfleiste lesbar über Fotos; Schalter-Schiene eindeutig
+ * ========================================================================== */
+.kopf-pille.glas-hell{background:rgba(244,241,234,.62);-webkit-backdrop-filter:blur(22px) saturate(160%);backdrop-filter:blur(22px) saturate(160%)}
+html[data-modus="dunkel"] .kopf-pille.glas-hell{background:rgba(30,33,36,.62);border-color:rgba(255,255,255,.16)}
+.kopf.ueber-wand .kopf-pille{background:rgba(20,22,24,.34)}
+html[data-modus="hell"] .kopf.ueber-wand .kopf-pille{background:rgba(244,241,234,.5)}
+.menue-flaeche.glas-hell{background:rgba(244,241,234,.8)}
+html[data-modus="dunkel"] .menue-flaeche.glas-hell{background:rgba(30,33,36,.85)}
+/* Schiene: eine Farbe, kein Verlauf, in beiden Modi definiert. */
+.modus,.modus[aria-pressed="true"],.modus[aria-pressed="false"],.kopf.ueber-wand .modus{
+  background:rgba(28,32,34,.14);border-color:rgba(28,32,34,.22);
+}
+html[data-modus="dunkel"] .modus,html[data-modus="dunkel"] .modus[aria-pressed="true"],html[data-modus="dunkel"] .kopf.ueber-wand .modus{
+  background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.28);
+}
+.modus:hover,html[data-modus="dunkel"] .modus:hover{filter:brightness(1.1)}
+.modus .knauf{transform:translateX(0)}
+.modus[aria-pressed="true"] .knauf{transform:translateX(1.66rem)}
+@media (min-width:1100px){.modus[aria-pressed="true"] .knauf{transform:translateX(1.8rem)}}
+.modus .knauf::before,.modus .knauf::after{content:none}
+
+
+/* =============================================================================
+ *  17.09. — Flüssiges Glas: Brechung statt Unschärfe
+ *  Die Scheibe zeigt die Wand hinter sich, durch eine langsam wandernde
+ *  Verzerrung gebrochen (SVG-Filter #fluessig). Fast keine Unschärfe, kaum
+ *  Füllung, Licht nur an den Kanten.
+ * ========================================================================== */
+:root{--wandbild:url("../img/ottocento-anthrazit-2560.webp")}
+html[data-modus="hell"]{--wandbild:url("../img/ottocento-hell-2560.webp")}
+@media (min-width:860px){
+  .hero{background:var(--wandbild) center/cover fixed no-repeat}
+  .hero .wand-bild,.hero picture{display:none}
+  .hero-karte{background:rgba(255,255,255,.02);-webkit-backdrop-filter:none;backdrop-filter:none;overflow:hidden}
+  .hero-karte .linse{
+    position:absolute;inset:-3%;z-index:0;pointer-events:none;
+    background:var(--wandbild) center/cover fixed no-repeat;
+    filter:url(#fluessig) brightness(1.1) saturate(1.05);
+    -webkit-filter:url(#fluessig) brightness(1.1) saturate(1.05);
+  }
+  html[data-modus="hell"] .hero-karte .linse{filter:url(#fluessig) brightness(1.04);-webkit-filter:url(#fluessig) brightness(1.04)}
+  .hero-karte > *:not(.linse){position:relative;z-index:1}
+}
+/* Unter 860 px (iOS ohne fixes Hintergrundbild): klares Glas mit sehr wenig Unschärfe. */
+@media (max-width:859px){
+  .hero-karte{background:rgba(255,255,255,.03);-webkit-backdrop-filter:blur(5px) saturate(150%) brightness(1.06);backdrop-filter:blur(5px) saturate(150%) brightness(1.06)}
+}
+/* Kanten: heller Saum oben/links, feine dunkle Dicke — das trägt den Glaseindruck. */
+.hero-karte{
+  border:1px solid rgba(255,255,255,.42);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.7),inset 1px 0 0 rgba(255,255,255,.28),inset -1px 0 0 rgba(255,255,255,.12),inset 0 -1px 0 rgba(255,255,255,.14),inset 0 0 0 1px rgba(0,0,0,.12),0 40px 90px -46px rgba(0,0,0,.8);
+}
+.hero-karte::before{
+  background:
+    radial-gradient(80% 50% at 6% -6%, rgba(255,255,255,.22), rgba(255,255,255,0) 60%),
+    radial-gradient(50% 35% at 100% 108%, rgba(255,255,255,.08), rgba(255,255,255,0) 60%);
+}
+html[data-modus="hell"] .hero-karte{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.85)}
+/* Übrige Glasflächen (Fliesen-Rahmen, Punkte, Pfeile): weniger Unschärfe, mehr Durchblick. */
+.glas{background:rgba(255,255,255,.035);-webkit-backdrop-filter:blur(6px) saturate(160%) brightness(1.05);backdrop-filter:blur(6px) saturate(160%) brightness(1.05)}
+html[data-modus="hell"] .wand::after{background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,0) 40%,rgba(0,0,0,.05))}
+@media (min-width:860px){.hero::after{content:none}}
+@media (min-width:860px){html[data-modus="hell"] .hero,html[data-modus="dunkel"] .hero{background:var(--wandbild) center/cover fixed no-repeat}}
+
+/* 17.09. — Kopfleiste als klares Glas, nicht als dunkle Fläche */
+.kopf-pille.glas-hell,.kopf.ueber-wand .kopf-pille,html[data-modus="dunkel"] .kopf-pille.glas-hell,html[data-modus="hell"] .kopf.ueber-wand .kopf-pille{
+  background:rgba(255,255,255,.10);border-color:rgba(255,255,255,.42);
+  -webkit-backdrop-filter:blur(10px) saturate(160%) brightness(1.06);backdrop-filter:blur(10px) saturate(160%) brightness(1.06);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.6),inset 0 0 0 1px rgba(0,0,0,.08),0 18px 50px -34px rgba(0,0,0,.6);
+}
+html[data-modus="hell"] .kopf-pille.glas-hell{background:rgba(255,255,255,.28);border-color:rgba(255,255,255,.8)}
+.kopf.ueber-wand .kopf-pille .marke,.kopf.ueber-wand .kopf-pille .nav a{text-shadow:0 1px 2px rgba(0,0,0,.35)}
+html[data-modus="hell"] .kopf.ueber-wand .kopf-pille .marke,html[data-modus="hell"] .kopf.ueber-wand .kopf-pille .nav a{text-shadow:none}
+.menue-flaeche.glas-hell,html[data-modus="dunkel"] .menue-flaeche.glas-hell{background:rgba(255,255,255,.12);-webkit-backdrop-filter:blur(16px) saturate(160%);backdrop-filter:blur(16px) saturate(160%)}
+html[data-modus="hell"] .menue-flaeche.glas-hell{background:rgba(255,255,255,.55)}
+/* Außerhalb der Wand (über Papier oder Fotos): etwas mehr Deckung, sonst ist der Name über hellen Fotos unlesbar. */
+html[data-modus="dunkel"] .kopf:not(.ueber-wand) .kopf-pille{background:rgba(30,33,36,.42);border-color:rgba(255,255,255,.22);-webkit-backdrop-filter:blur(18px) saturate(160%);backdrop-filter:blur(18px) saturate(160%)}
+html[data-modus="hell"] .kopf:not(.ueber-wand) .kopf-pille{background:rgba(244,241,234,.5);border-color:rgba(255,255,255,.85);-webkit-backdrop-filter:blur(18px) saturate(160%);backdrop-filter:blur(18px) saturate(160%)}
+
+/* 17.09. — Glas statisch: kein Schimmerband, keine Bewegung im Filter */
+.glas::after,.hero-karte::after{animation:none;display:none}
+
+
+/* =============================================================================
+ *  17.09. — Glas nach Apple-Art: leichte Milch, satte Farben dahinter,
+ *  Licht an den Kanten. Keine Filter, keine Bewegung. Gilt für alle Scheiben.
+ * ========================================================================== */
+@media (min-width:860px){
+  .hero{background:none}
+  html[data-modus="hell"] .hero,html[data-modus="dunkel"] .hero{background:#2b2f33}
+  html[data-modus="hell"] .hero{background:#d9d6cf}
+  .hero .wand-bild,.hero picture{display:block}
+  .hero-karte .linse{display:none}
+  .hero::after{content:""}
+}
+.wand-bild{animation:none;transform:none}
+.glas,.hero-karte,.glas-hell,.kopf-pille.glas-hell,.hilfe.glas-hell,.ruf.glas-hell{
+  background:linear-gradient(180deg,rgba(255,255,255,.17),rgba(255,255,255,.09));
+  -webkit-backdrop-filter:blur(18px) saturate(190%) contrast(1.04);backdrop-filter:blur(18px) saturate(190%) contrast(1.04);
+  border:1px solid rgba(255,255,255,.38);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.55),inset 0 -1px 0 rgba(255,255,255,.08),0 24px 70px -36px rgba(0,0,0,.6);
+  overflow:hidden;
+}
+/* Kantenlicht: ein innerer, weicher Ring wie Brechung am Rand der Scheibe. */
+.glas::before,.hero-karte::before,.glas-hell::before{
+  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.14),inset 0 0 28px rgba(255,255,255,.10),inset 0 -14px 28px -18px rgba(0,0,0,.18);
+  background:radial-gradient(70% 45% at 8% -8%, rgba(255,255,255,.22), rgba(255,255,255,0) 60%);
+}
+.glas::after,.hero-karte::after,.glas-hell::after{display:none}
+.hero-karte > *{position:relative;z-index:1}
+/* Auf Papier (hell): Scheiben etwas milchiger, Kanten weiß. */
+html[data-modus="hell"] .glas-hell,html[data-modus="hell"] .hero-karte,html[data-modus="hell"] .glas{
+  background:linear-gradient(180deg,rgba(255,255,255,.42),rgba(255,255,255,.26));border-color:rgba(255,255,255,.85);
+  box-shadow:inset 0 1px 0 #fff,inset 0 -1px 0 rgba(255,255,255,.3),0 24px 60px -40px rgba(28,32,34,.4);
+}
+html[data-modus="hell"] .glas-hell::before,html[data-modus="hell"] .hero-karte::before,html[data-modus="hell"] .glas::before{
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.5),inset 0 0 24px rgba(255,255,255,.35),inset 0 -14px 28px -18px rgba(28,32,34,.08);
+}
+/* Im Dunkeln über Papier: etwas dunkler getönt, damit heller Text sitzt. */
+html[data-modus="dunkel"] .glas-hell{background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.05));border-color:rgba(255,255,255,.18)}
+html[data-modus="dunkel"] .kopf:not(.ueber-wand) .kopf-pille,html[data-modus="dunkel"] .hilfe.glas-hell,html[data-modus="dunkel"] .ruf.glas-hell{background:linear-gradient(180deg,rgba(40,44,48,.55),rgba(30,33,36,.45))}
+.hero-karte .lead,.hero-karte h1,.hero-karte .kicker,.hero-karte .hero-meta{text-shadow:0 1px 2px rgba(0,0,0,.28)}
+html[data-modus="hell"] .hero-karte .lead,html[data-modus="hell"] .hero-karte h1,html[data-modus="hell"] .hero-karte .kicker,html[data-modus="hell"] .hero-karte .hero-meta{text-shadow:none}
+.schau-punkte.glas{overflow:visible}
+.leistung.glas-hell,.feld.glas-hell,.weg.glas-hell,.faq details.glas-hell,.kontakt.glas-hell{overflow:hidden}
+
+
+/* =============================================================================
+ *  17.09. — Kopfleiste fährt beim Scrollen zur Pille zusammen
+ * ========================================================================== */
+.nav{display:grid;grid-template-columns:1fr;opacity:1;transition:grid-template-columns .7s var(--ease),opacity .35s var(--ease)}
+.nav-in{display:flex;align-items:center;gap:.2rem;min-width:0;overflow:hidden;white-space:nowrap}
+@media (min-width:860px){
+  .kopf .wrap{justify-content:flex-end}
+  .kopf-pille{max-width:var(--maxw);transition:max-width .7s var(--ease),padding .5s var(--ease),background var(--dur) var(--ease),border-color var(--dur) var(--ease),color var(--dur) var(--ease)}
+  .kopf.kompakt .kopf-pille{max-width:32rem;padding-left:1.1rem}
+  .kopf.kompakt .nav{grid-template-columns:0fr;opacity:0;pointer-events:none}
+  .kopf.kompakt .marke small{display:none}
+  .kopf.kompakt .marke{font-size:1rem}
+  .menue{display:none}
+  .kopf.kompakt .menue{display:inline-flex}
+  .menue-flaeche{display:grid;left:auto;right:var(--pad);width:18rem;top:calc(4.6rem + env(safe-area-inset-top))}
+  .kopf:not(.kompakt) ~ .menue-flaeche{opacity:0;pointer-events:none}
+}
+@media (min-width:1100px){.kopf.kompakt .kopf-pille{padding:.45rem .5rem .45rem 1.2rem}}
+/* Interne Hinweise: klein, eingeklappt, nicht mehr rot dominant */
+details.todo{margin-top:.9rem;padding:.35rem .7rem;border:1px dashed rgba(176,64,44,.45);border-radius:8px;background:transparent;font-size:.78rem;color:#b0402c}
+details.todo summary{cursor:pointer;list-style:none;font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:.66rem;opacity:.8}
+details.todo summary::-webkit-details-marker{display:none}
+details.todo p{margin:.4rem 0 .2rem;line-height:1.45}
+.wand details.todo{border-color:rgba(255,170,150,.5);color:#f7c9bd}
+html[data-modus="hell"] .wand details.todo{border-color:rgba(176,64,44,.45);color:#b0402c}
+
+/* 17.09. — Schriftgrößen-Schalter klein und dezent */
+.hilfe{padding:.22rem;gap:.35rem;left:calc(.9rem + env(safe-area-inset-left));bottom:calc(.9rem + env(safe-area-inset-bottom));max-width:none}
+@media (min-width:860px){.hilfe{left:1.1rem;bottom:1.1rem}}
+@media (max-width:859px){.hilfe{bottom:calc(4.3rem + env(safe-area-inset-bottom))}}
+.schrift{height:1.9rem;width:1.9rem;padding:0;border-radius:50%;justify-content:center;align-items:baseline;gap:.05rem;border-color:rgba(127,127,127,.3)}
+.schrift .a1{font-size:.62rem}.schrift .a2{font-size:.95rem;font-weight:600}
+.hilfe-stand{display:none;font-size:.72rem;padding-right:.55rem;opacity:0;transition:opacity .4s var(--ease)}
+.hilfe.zeigt .hilfe-stand{display:inline;opacity:1}
+
+
+/* =============================================================================
+ *  17.09. — Leistungsseite: ein Bild je Bereich, Leistungen als ruhige Liste
+ * ========================================================================== */
+.bereich-raster{display:grid;gap:1.4rem}
+.bereich-raster > figure img{width:100%;aspect-ratio:3/2;object-fit:cover;border-radius:var(--r);height:auto}
+.bereich-inhalt .lead{font-size:1rem;max-width:44ch}
+.bereich-inhalt h2{font-size:clamp(1.5rem,3.4vw,2.1rem)}
+.leistungen{display:block;margin-top:1.2rem;border-top:1px solid var(--linie)}
+.leistung,.leistung.zeig{display:grid;grid-template-columns:minmax(9rem,13rem) 1fr;gap:.6rem 1.2rem;align-items:baseline;padding:.7rem 0;border-bottom:1px solid var(--linie);
+  background:none;border-radius:0;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;overflow:visible}
+.leistung::before{display:none}
+.leistung b{font-size:1rem}
+.leistung span{margin:0;font-size:.92rem}
+@media (max-width:600px){.leistung,.leistung.zeig{grid-template-columns:1fr;gap:.15rem}}
+@media (min-width:860px){
+  .bereich-raster{grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:2.5rem;align-items:start}
+  .bereich-raster > figure{position:sticky;top:6.5rem}
+}
+.bereich{padding-block:clamp(2rem,5vw,3.5rem)}
+
+
+/* =============================================================================
+ *  17.09. — Aus dem Leitfaden: Brechung nur wo möglich, Fallbacks, Zugänglichkeit
+ * ========================================================================== */
+/* Echte Lichtbrechung (Chromium): nur Kopfleiste und Hero-Scheibe, statisch. */
+@supports (backdrop-filter: url(#liquid)) {
+  .kopf-pille.glas-hell,.hero-karte{-webkit-backdrop-filter:blur(6px) saturate(180%) brightness(1.06);backdrop-filter:blur(6px) saturate(180%) brightness(1.06) url(#liquid)}
+}
+/* Ohne backdrop-filter: deckend statt durchsichtig. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glas,.hero-karte{background:rgba(38,42,46,.94)}
+  .glas-hell,.kopf-pille.glas-hell{background:rgba(244,241,234,.96)}
+  html[data-modus="dunkel"] .glas-hell,html[data-modus="dunkel"] .kopf-pille.glas-hell{background:rgba(38,42,46,.96)}
+}
+/* Wer weniger Transparenz eingestellt hat, bekommt deckende Flächen. */
+@media (prefers-reduced-transparency: reduce) {
+  .glas,.hero-karte,.glas-hell,.kopf-pille.glas-hell,.hilfe.glas-hell,.ruf.glas-hell,.menue-flaeche.glas-hell{
+    -webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(244,241,234,.97);color:var(--tinte)}
+  html[data-modus="dunkel"] .glas,html[data-modus="dunkel"] .hero-karte,html[data-modus="dunkel"] .glas-hell,html[data-modus="dunkel"] .kopf-pille.glas-hell,
+  html[data-modus="dunkel"] .hilfe.glas-hell,html[data-modus="dunkel"] .ruf.glas-hell,html[data-modus="dunkel"] .menue-flaeche.glas-hell{background:rgba(38,42,46,.97);color:var(--hell)}
+  .wand .hero-karte{color:var(--tinte)}
+}

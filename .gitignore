@@ -1,1 +1,14 @@
 .DS_Store
+
+# Eigenes Repo für GitHub Pages (wird per deploy/github-pages.sh befüllt)
+deploy/github-pages/
+
+# Große KI-Entwurfsserien und Zwischenstände: bleiben lokal, nicht in der Versionsgeschichte
+entwuerfe/szenen*/
+entwuerfe/behandlung/
+entwuerfe/test-*/
+entwuerfe/test-hintergrund-01.*
+entwuerfe/stand-*/
+entwuerfe/fotos/
+entwuerfe/ottocento/
+entwuerfe/*.log

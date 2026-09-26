@@ -1,0 +1,8 @@
+cd ~/dr-pfeiler-site
+B=werkzeug/bild.py
+REST="Restauriere dieses abfotografierte Papierfoto zu einem sauberen, hochwertigen Foto: exakt dasselbe Motiv, dieselben Personen mit unveränderten Gesichtern, Körperhaltungen, Kleidung und Logos. Entferne Spiegelungen, Glanz, Moiré, Bildschirm- und Druckraster, Schrägstellung und den umgebenden Seitenrand; richte das Bild gerade aus und beschneide auf das eigentliche Foto. Natürliche Farben, feines Filmkorn, weiche Schärfe. Nichts hinzuerfinden."
+ARZT="Fotorealistische Aufnahme in einer hellen, ruhigen Arztpraxis wie in den Referenzbildern: derselbe Arzt (weißhaarig, um die 70, beiges kurzärmeliges Hemd) wie auf den Referenzbildern, gleicher Bildstil, weiches Tageslicht, gedeckte Farben in Creme, Sand und Anthrazit, keine bunten Poster, keine Schrift. Konzentrierte, ärztliche Untersuchungssituation — keinesfalls Massage oder Wellness. "
+S1=vorlagen/stil/ki-01-knie-reflexhammer.jpg
+S2=vorlagen/stil/ki-02-ultraschall.jpg
+eval "$B edit --qualitaet high --format quer -o entwuerfe/behandlung/b-01-sprunggelenk-ultraschall.png $S2 $S1 \"${ARZT}Der Arzt sitzt am Fußende der Liege und untersucht das Sprunggelenk eines Sportlers in Sportshorts mit dem Ultraschallkopf; das Ultraschallgerät steht seitlich, der Sportler sitzt aufrecht und schaut zum Monitor.\""
+eval "$B edit --qualitaet high --format quer -o entwuerfe/behandlung/b-06-befundgespraech.png $S1 $S2 \"${ARZT}Der Arzt sitzt mit einem Sportler am Schreibtisch und erklärt ihm an einem anatomischen Kniemodell den Befund; beide schauen auf das Modell, freundliche, ruhige Gesprächssituation.\""
