@@ -7,7 +7,7 @@ Kopf, Menü, untere Leiste und Fuß stehen hier genau einmal und in derselben Re
 import pathlib, re
 
 WEB = pathlib.Path.home() / 'dr-pfeiler-site' / 'web'
-V = '29'
+V = '31'
 TEL, TEL_HREF = '0160 5728656', 'tel:+491605728656'
 MAIL = 'praxis@dr-pfeiler.de'
 LAT, LON = '52.27784', '10.52268'
@@ -368,7 +368,7 @@ BEREICHE = [
 def bereich(i, a, t, lead, b, punkte, hinweis):
     pk = ''.join(f'<div><dt>{x}</dt><dd>{y}</dd></div>' for x, y in punkte)
     return f'''
-  <section class="bereich" id="{a}" aria-labelledby="{a}-t">
+  <section class="bereich{'' if b else ' bereich--zentriert'}" id="{a}" aria-labelledby="{a}-t">
     <div class="wrap">
       <div class="bereich-kopf zeig"><span class="nr" aria-hidden="true">0{i+1}</span><div><h2 id="{a}-t">{t}</h2><p class="lead" style="margin-top:1rem">{lead}</p></div></div>
       <div class="bereich-raster">
@@ -424,8 +424,6 @@ PRAXIS = f'''
   </section>
 
 
-    <p class="bildunterschrift"><span>Ultraschall am Sprunggelenk</span><span class="symbol">Symbolbild</span></p>
-  </div>
 {CHRONIK}
 
   <section class="abschnitt" aria-labelledby="schwer-t" data-ruf-ende>

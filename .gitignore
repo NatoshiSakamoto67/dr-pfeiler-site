@@ -12,3 +12,6 @@ entwuerfe/stand-*/
 entwuerfe/fotos/
 entwuerfe/ottocento/
 entwuerfe/*.log
+
+# Geschäftliche Unterlagen (Angebote) nicht in die Versionsgeschichte
+angebot/
